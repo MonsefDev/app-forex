@@ -1,0 +1,24 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <mat-icon [color]="currencyService.isRateIncreasing() ? 'accent' : 'warn'">
+        {{ currencyService.isRateIncreasing() ? 'trending_up' : 'trending_down' }}
+      </mat-icon>
+      Taux de change EUR/USD
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div style="text-align: center;">
+      <h2 [style.color]="currencyService.isRateIncreasing() ? '#4caf50' : '#ff9800'">
+        {{ currencyService.currentRate() | number:'1.4-4' }}
+      </h2>
+
+      <mat-chip-set>
+        <mat-chip [color]="currencyService.isRateIncreasing() ? 'accent' : 'warn'" selected>
+          {{ currencyService.rateVariation() > 0 ? '+' : '' }}{{ currencyService.rateVariation() | number:'1.2-2' }}%
+        </mat-chip>
+      </mat-chip-set>
+    </div>
+  </mat-card-content>
+</mat-card>

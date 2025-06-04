@@ -1,0 +1,28 @@
+@import "@angular/material/prebuilt-themes/azure-blue.css";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #fafafa;
+  color: #333;
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+/* Animation globale pour les changements de valeur */
+@keyframes valueChange {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.value-changed {
+  animation: valueChange 0.3s ease;
+}

@@ -1,0 +1,82 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <mat-icon color="primary">currency_exchange</mat-icon>
+      Convertisseur de devises
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <!-- Toggle EUR/USD -->
+    <div style="text-align: center; margin-bottom: 24px;">
+      <mat-slide-toggle
+        [checked]="currencyService.isUsdMode()"
+        (change)="currencyService.toggleCurrency()"
+        color="primary">
+        {{ currencyService.isUsdMode() ? 'USD → EUR' : 'EUR → USD' }}
+      </mat-slide-toggle>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <!-- Montant d'entrée -->
+    <mat-form-field appearance="outline" style="width: 100%; margin-top: 16px;">
+      <mat-label>Montant en {{ currencyService.fromCurrency() }}</mat-label>
+      <input matInput
+             type="number"
+             [value]="currencyService.amount()"
+             (input)="onAmountChange($event)"
+             placeholder="0.00"
+             min="0"
+             step="0.01">
+      <mat-icon matPrefix color="primary">attach_money</mat-icon>
+      <span matTextSuffix>{{ currencyService.fromCurrency() }}</span>
+    </mat-form-field>
+
+    <!-- Résultat de conversion -->
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Montant converti en {{ currencyService.toCurrency() }}</mat-label>
+      <input matInput
+             [value]="currencyService.convertedAmount() | number:'1.2-2'"
+             readonly>
+      <mat-icon matPrefix color="accent">trending_up</mat-icon>
+      <span matTextSuffix>{{ currencyService.toCurrency() }}</span>
+    </mat-form-field>
+
+    <mat-divider style="margin: 24px 0;"></mat-divider>
+
+    <!-- Section taux fixe -->
+    <div>
+      <mat-checkbox
+        [checked]="currencyService.isFixedRateEnabled()"
+        (change)="currencyService.toggleFixedRate()"
+        color="primary">
+        Utiliser un taux fixe
+      </mat-checkbox>
+
+      <mat-form-field
+        *ngIf="currencyService.isFixedRateEnabled()"
+        appearance="outline"
+        style="width: 100%; margin-top: 16px;">
+        <mat-label>Taux fixe EUR/USD</mat-label>
+        <input matInput
+               type="number"
+               [value]="currencyService.fixedRate()"
+               (input)="onFixedRateChange($event)"
+               placeholder="1.1000"
+               step="0.0001"
+               min="0.1"
+               max="10">
+        <mat-icon matPrefix color="warn">lock</mat-icon>
+      </mat-form-field>
+
+      <!-- Alerte taux fixe -->
+      <mat-chip-set *ngIf="currencyService.showRateWarning()" style="margin-top: 16px;">
+        <mat-chip color="warn" selected>
+          <mat-icon>warning</mat-icon>
+          Taux fixe désactivé : écart > 5% avec le taux réel
+        </mat-chip>
+      </mat-chip-set>
+    </div>
+  </mat-card-content>
+</mat-card>
